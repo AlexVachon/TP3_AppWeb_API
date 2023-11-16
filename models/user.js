@@ -5,18 +5,30 @@ const userSchema = new Schema(
   {
     email: {
       type: String,
-      required: true,
-      unique: true,
-      match: [/.+@.+\..+/, 'Adresse courriel invalide'],
+      required: [true, "Requis"],
+      unique: [true, "Un compte utilise déjà ce courriel!"],
+      maxlength: 50,
+      validate: {
+        validator: function (v) {
+          return /.+@.+\..+/.test(v.trim());
+        },
+        message: "Adresse courriel invalide",
+      }
     },
     username: {
       type: String,
-      required: true
+      required: [true, "Requis"],
+      validate: {
+        validator: function (v){
+          return /^[A-Za-z]{3,50}$/.test(v.trim())
+        },
+        message: "Le nom doit contenir de 3 à 50 caractères"
+      }
     },
     password: {
       type: String,
-      required: true,
-      minlength: 6
+      required: [true, "Requis"],
+      minlength: [6, "Doit contenir un minimum 6 caractères"]
     },
     isValet: {
       type: Boolean,
