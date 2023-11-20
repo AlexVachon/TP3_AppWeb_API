@@ -38,7 +38,7 @@ exports.getUser = async (req, res, next) => {
           self: {
             href: `/user/`,
             method: "GET",
-            title: "Profil utilisateur",
+            title: "Utilisateur connecté",
           },
           delete: {
             href: `/user/`,
