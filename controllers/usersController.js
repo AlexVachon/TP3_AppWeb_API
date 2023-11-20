@@ -55,21 +55,37 @@ exports.getUser = async (req, res, next) => {
   }
 };
 
-
 exports.getUserById = async (req, res, next) => {
   try {
     const userId = req.params.id;
     console.log(userId);
     const user = await checkUserExists(userId);
-    res.status(200).json({
-      user: user,
-    });
+    res.status(200).json(user);
   } catch (err) {
     next(err);
   }
 };
 
-exports.updateUser = async (req, res, next) => {};
+exports.updateUser = async (req, res, next) => {
+  try {
+    const { userId } = req.params;
+    const { email, username } = req.body;
+
+    const user = await User.findByIdAndUpdate(
+      userId,
+      {
+        username: username,
+        email: email,
+      },
+      { new: true }
+    );
+    if (!user)
+      return res.status(404).json({ message: "Utilisateur non trouvé." });
+    else return res.status(200).json({ message: "Modifié avec succès!" });
+  } catch (error) {
+    next(err);
+  }
+};
 
 exports.updateCar = async (req, res, next) => {};
 
