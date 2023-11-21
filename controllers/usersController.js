@@ -21,8 +21,8 @@ exports.getUsers = async (req, res, next) => {
     res.status(200).json({
       users: filteredUsers,
     });
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -36,12 +36,12 @@ exports.getUser = async (req, res, next) => {
         data: user,
         links: {
           self: {
-            href: `/user/`,
+            href: url_base + req.URL,
             method: "GET",
             title: "Utilisateur connecté",
           },
           delete: {
-            href: `/user/`,
+            href: url_base + req.URL,
             method: "DELETE",
             title: "Supprimer l'utilisateur",
           },
@@ -50,8 +50,8 @@ exports.getUser = async (req, res, next) => {
     };
 
     return res.status(200).json(userResource);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -61,8 +61,8 @@ exports.getUserById = async (req, res, next) => {
     console.log(userId);
     const user = await checkUserExists(userId);
     res.status(200).json(user);
-  } catch (err) {
-    next(err);
+  } catch (error) {
+    next(error);
   }
 };
 
@@ -81,13 +81,38 @@ exports.updateUser = async (req, res, next) => {
     );
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé." });
-    else return res.status(200).json({ message: "Modifié avec succès!" });
+    else 
+      return res.status(200).json({ message: "Modifié avec succès!" });
   } catch (error) {
-    next(err);
+    hasValidationErrors(res, error);
+    next(error);
   }
 };
 
-exports.updateCar = async (req, res, next) => {};
+exports.updateCar = async (req, res, next) => {
+  try {
+    const { marque, modele, couleur, plaque } = req.body;
+    const { userId } = req.params;
+
+    const voiture = await Voiture.findOneAndUpdate(
+      await User.findById(userId).voiture,
+      {
+        marque: marque,
+        modele: modele,
+        couleur: couleur,
+        plaque: plaque,
+      },
+      { new: true }
+    );
+    if (!voiture)
+      return res.status(404).json({ message: "Voiture non trouvé." });
+    else
+      return res.status(200).json({ message: "Voiture modifié avec succès!" });
+  } catch (error) {
+    hasValidationErrors(res, error);
+    next(error);
+  }
+};
 
 exports.deleteUser = async (req, res, next) => {
   try {
@@ -113,4 +138,16 @@ async function checkUserExists(userId) {
     throw error;
   }
   return user;
+}
+
+function hasValidationErrors(res, error) {
+  if (error.name === "ValidationError") {
+    const validationErrors = {};
+
+    for (const key in error.errors) {
+      validationErrors[key] = error.errors[key].message;
+    }
+
+    return res.status(400).json({ errors: validationErrors });
+  }
 }
