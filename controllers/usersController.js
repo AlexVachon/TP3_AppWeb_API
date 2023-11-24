@@ -140,6 +140,7 @@ async function checkUserExists(userId) {
   return user;
 }
 
+//Erreur de validation
 function hasValidationErrors(res, error) {
   if (error.name === "ValidationError") {
     const validationErrors = {};

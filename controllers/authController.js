@@ -11,7 +11,6 @@ function createToken(email) {
 
 exports.login = async (req, res, next) => {
   const { email, password } = req.body;
-  // TODO: Ajouter les chemins pour les pages
   try {
     const user = await User.findOne({ email: email });
 
@@ -37,7 +36,6 @@ exports.login = async (req, res, next) => {
       .status(401)
       .json({ message: "Adresse e-mail ou mot de passe incorrect." });
   } catch (error) {
-    console.error(error);
     next(error);
   }
 };
@@ -64,17 +62,20 @@ exports.signup = async (req, res, next) => {
       token: createToken(new_user.email),
     });
   } catch (error) {
-    if (error instanceof Error.ValidationError) {
-      const validationErrors = {};
-
-      for (const key in error.errors) {
-        validationErrors[key] = error.errors[key].message;
-      }
-
-      return res.status(400).json({ errors: validationErrors });
-    } else {
-      console.error(error);
-      return res.status(500).json({ message: "Erreur interne du serveur" });
-    }
+    hasValidationErrors(res, error)
+    next(error)
   }
 };
+
+//Erreur de validation
+function hasValidationErrors(res, error) {
+  if (error.name === "ValidationError") {
+    const validationErrors = {};
+
+    for (const key in error.errors) {
+      validationErrors[key] = error.errors[key].message;
+    }
+
+    return res.status(400).json({ errors: validationErrors });
+  }
+}
