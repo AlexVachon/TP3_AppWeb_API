@@ -3,10 +3,14 @@ const jwt = require("jsonwebtoken");
 const config = require("../config");
 const User = require("../models/user");
 
-function createToken(email) {
-  return jwt.sign({ email: email }, process.env.SECRET_JWT, {
-    expiresIn: "1h",
-  });
+function createToken(user) {
+  return jwt.sign(
+    { id: user._id, isValet: user.isValet },
+    process.env.SECRET_JWT,
+    {
+      expiresIn: "1h",
+    }
+  );
 }
 
 exports.login = async (req, res, next) => {
@@ -20,15 +24,9 @@ exports.login = async (req, res, next) => {
         .json({ message: "Adresse e-mail ou mot de passe incorrect." });
     }
     if (await bcrypt.compare(password, user.password)) {
-      if (user.isValet) {
-        return res.status(200).json({
-          message: "Rediriger vers la page Valet",
-          token: createToken(email),
-        });
-      }
       return res.status(200).json({
         message: "Rediriger vers Ma place",
-        token: createToken(email),
+        token: createToken(user),
       });
     }
 
@@ -53,17 +51,17 @@ exports.signup = async (req, res, next) => {
     const new_user = User({
       email: email,
       username: username,
-      password: password,
+      password: bcrypt.hash(password, 10),
     });
 
     await new_user.save();
     return res.status(200).json({
       message: "Compte créé avec succès!",
-      token: createToken(new_user.email),
+      token: createToken(new_user),
     });
   } catch (error) {
-    hasValidationErrors(res, error)
-    next(error)
+    hasValidationErrors(res, error);
+    next(error);
   }
 };
 
