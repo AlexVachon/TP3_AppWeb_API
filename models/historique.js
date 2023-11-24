@@ -8,6 +8,7 @@ const historiqueSchema = new Schema(
     },
     isPaid: {
       type: Boolean,
+      default: false
     },
     userId: {
       type: Schema.Types.ObjectId,
