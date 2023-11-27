@@ -67,6 +67,7 @@ exports.signup = async (req, res, next) => {
   }
 };
 
+
 //Erreur de validation
 function hasValidationErrors(res, error) {
   if (error.name === "ValidationError") {

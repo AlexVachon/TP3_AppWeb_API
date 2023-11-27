@@ -39,7 +39,9 @@ app.use(historiqueRoutes);
 
 // Middleware de gestion des erreurs
 app.use((err, req, res, next) => {
-  res.status(err.statusCode || 500).json({ message: err.message });
+  if(err.name !== "ValidationError"){
+    return res.status(err.statusCode || 500).json({ message: err.message });
+  }
 });
 
 
