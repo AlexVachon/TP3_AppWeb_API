@@ -8,7 +8,7 @@ function createToken(user) {
     { id: user._id, isValet: user.isValet },
     process.env.SECRET_JWT,
     {
-      expiresIn: "1h",
+      expiresIn: "24h",
     }
   );
 }
@@ -25,7 +25,7 @@ exports.login = async (req, res, next) => {
     }
     if (await bcrypt.compare(password, user.password)) {
       return res.status(200).json({
-        message: "Rediriger vers Ma place",
+        message: "Connexion réussie!",
         token: createToken(user),
       });
     }
