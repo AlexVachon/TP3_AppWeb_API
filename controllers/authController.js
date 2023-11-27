@@ -48,10 +48,12 @@ exports.signup = async (req, res, next) => {
         .json({ message: "Les mots de passe doivent être identiques!" });
     }
 
+    const hashedPassword = await bcrypt.hash(password, 10);
+
     const new_user = User({
       email: email,
       username: username,
-      password: bcrypt.hash(password, 10),
+      password: hashedPassword,
     });
 
     await new_user.save();
