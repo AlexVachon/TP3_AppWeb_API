@@ -20,7 +20,7 @@ const userSchema = new Schema(
       required: [true, "Requis"],
       validate: {
         validator: function (v){
-          return /^[A-Za-z]{3,50}$/.test(v.trim())
+          return /^[A-Za-z0-9]{3,50}$/.test(v.trim());
         },
         message: "Le nom doit contenir de 3 à 50 caractères"
       }
