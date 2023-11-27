@@ -18,6 +18,10 @@ app.use(express.json());
 // qui prend en charge les liens HATEOAS
 app.use(hateoasLinker); 
 
+// Utilisation des routes en tant que middleware
+app.get('/', (req, res) => {
+  res.send('Bienvenue sur l\'API !');
+});
 
 app.use((req, res, next) => {
   res.setHeader('Access-Control-Allow-Origin', '*');
@@ -29,17 +33,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middleware de gestion des erreurs
-app.use((err, req, res, next) => {
-  res.status(err.statusCode || 500).json({ message: err.message });
-});
-
-// Utilisation des routes en tant que middleware
 app.use('/auth', authRoutes);
 app.use(userRoutes);
 app.use(historiqueRoutes);
 
-
+// Middleware de gestion des erreurs
+app.use((err, req, res, next) => {
+  res.status(err.statusCode || 500).json({ message: err.message });
+});
 
 
 
