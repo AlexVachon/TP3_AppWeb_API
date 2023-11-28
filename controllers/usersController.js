@@ -28,7 +28,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const userId = req.body;
+    const userId = req.query.userId
     const user = await checkUserExists(userId);
 
     const userResource = {
@@ -36,12 +36,12 @@ exports.getUser = async (req, res, next) => {
         data: user,
         links: {
           self: {
-            href: url_base + req.URL,
+            href: url_base + req.url,
             method: "GET",
             title: "Utilisateur connecté",
           },
           delete: {
-            href: url_base + req.URL,
+            href: url_base + req.url,
             method: "DELETE",
             title: "Supprimer l'utilisateur",
           },
@@ -57,7 +57,7 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const userId = req.query.userId
+    const {userId} = req.params;
     
     if (!userId) {
       return res.status(400).json({ error: 'userId non spécifié dans la requête' });
@@ -137,7 +137,7 @@ exports.updateCar = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const userId = req.body;
+    const userId = req.query.userId;
     const user = await checkUserExists(userId);
     await user.remove();
     if (user.voiture) {
