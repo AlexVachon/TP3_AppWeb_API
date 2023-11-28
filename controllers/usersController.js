@@ -57,8 +57,7 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const userId = req.query && req.query.userId;
-    console.log(userId);
+    const userId = req.params.userId;
     
     if (!userId) {
       return res.status(400).json({ error: 'userId non spécifié dans la requête' });
