@@ -28,7 +28,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.body;
     const user = await checkUserExists(userId);
 
     const userResource = {
@@ -57,14 +57,20 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const userId = req.params.id;
+    const userId = req.query && req.query.userId;
     console.log(userId);
+    
+    if (!userId) {
+      return res.status(400).json({ error: 'userId non spécifié dans la requête' });
+    }
+
     const user = await checkUserExists(userId);
     res.status(200).json(user);
   } catch (error) {
     next(error);
   }
 };
+
 
 exports.updateUser = async (req, res, next) => {
   try {
@@ -81,8 +87,7 @@ exports.updateUser = async (req, res, next) => {
     );
     if (!user)
       return res.status(404).json({ message: "Utilisateur non trouvé." });
-    else 
-      return res.status(200).json({ message: "Modifié avec succès!" });
+    else return res.status(200).json({ message: "Modifié avec succès!" });
   } catch (error) {
     hasValidationErrors(res, error);
     next(error);
@@ -91,9 +96,20 @@ exports.updateUser = async (req, res, next) => {
 
 exports.updateCar = async (req, res, next) => {
   try {
-    const { marque, modele, couleur, plaque } = req.body;
+    const {
+      marque,
+      modele,
+      couleur,
+      plaque,
+      latitude,
+      longitude,
+      isParked,
+      isMoving,
+      timeToLeave,
+      valet,
+    } = req.body;
     const { userId } = req.params;
-
+    const valetObj = await User.findById(valet)
     const voiture = await Voiture.findOneAndUpdate(
       await User.findById(userId).voiture,
       {
@@ -101,6 +117,12 @@ exports.updateCar = async (req, res, next) => {
         modele: modele,
         couleur: couleur,
         plaque: plaque,
+        latitude: latitude,
+        longitude: longitude,
+        isParked: isParked,
+        isMoving: isMoving,
+        timeToLeave: timeToLeave,
+        valet: valetObj
       },
       { new: true }
     );
@@ -116,7 +138,7 @@ exports.updateCar = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const userId = req.user.userId;
+    const userId = req.body;
     const user = await checkUserExists(userId);
     await user.remove();
     if (user.voiture) {
