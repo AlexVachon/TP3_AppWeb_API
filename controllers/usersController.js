@@ -12,7 +12,7 @@ exports.getUsers = async (req, res, next) => {
     });
 
     const filteredUsers = users.filter((user) => user.voiture != null);
-    if (!filteredUsers.length) {
+    if (!filteredUsers) {
       const error = new Error("Aucun utilisateur trouvé.");
       error.statusCode = 404;
       throw error;
@@ -152,7 +152,7 @@ exports.deleteUser = async (req, res, next) => {
 
 // Fonction pour vérifier si un utilisateur existe
 async function checkUserExists(userId) {
-  const user = await User.findById(userId).populate("voiture");
+  const user = await User.findById(userId).populate({path: "voiture"});
   if (!user) {
     const error = new Error("L'utilisateur n'existe pas.");
     error.statusCode = 404;
