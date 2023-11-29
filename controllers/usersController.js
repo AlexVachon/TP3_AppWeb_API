@@ -108,7 +108,6 @@ exports.updateCar = async (req, res, next) => {
       valet,
     } = req.body;
     const { userId } = req.params;
-    const valetObj = await User.findById(valet)
     const voiture = await Voiture.findOneAndUpdate(
       await User.findById(userId).voiture,
       {
@@ -121,7 +120,7 @@ exports.updateCar = async (req, res, next) => {
         isParked: isParked,
         isMoving: isMoving,
         timeToLeave: timeToLeave,
-        valet: valetObj
+        valet: valet
       },
       { new: true }
     );
