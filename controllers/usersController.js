@@ -108,12 +108,14 @@ exports.updateCar = async (req, res, next) => {
       timeToLeave,
       valet,
     } = req.body;
+
     const { userId } = req.params;
     const user = await User.findById(userId);
     const hasCar = user.voiture ? true : false;
+
     if (hasCar) {
       const voiture = await Voiture.findOneAndUpdate(
-        user.voiture,
+        { _id: user.voiture },
         {
           marque: marque,
           modele: modele,
@@ -128,9 +130,11 @@ exports.updateCar = async (req, res, next) => {
         },
         { new: true }
       );
-      return res.status(201).json({message: "Voiture modifiée avec succès!", voiture})
+      return res
+        .status(201)
+        .json({ message: "Voiture modifiée avec succès!", voiture });
     } else {
-      const new_voiture = Voiture({
+      const new_voiture = new Voiture({
         marque: marque,
         modele: modele,
         couleur: couleur,
@@ -142,8 +146,13 @@ exports.updateCar = async (req, res, next) => {
         timeToLeave: timeToLeave,
         valet: valet,
       });
-      new_voiture.save()
-      return res.status(201).json({message: "Voiture ajoutée avec succès!", new_voiture})
+
+      await new_voiture.save();
+      await user.updateOne({ voiture: new_voiture._id });
+
+      return res
+        .status(201)
+        .json({ message: "Voiture ajoutée avec succès!", new_voiture });
     }
   } catch (error) {
     hasValidationErrors(res, error);
