@@ -28,7 +28,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const userId = req.query.userId
+    const userId = req.query.userId;
     const user = await checkUserExists(userId);
 
     const userResource = {
@@ -57,10 +57,12 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const {userId} = req.params;
-    
+    const { userId } = req.params;
+
     if (!userId) {
-      return res.status(400).json({ error: 'userId non spécifié dans la requête' });
+      return res
+        .status(400)
+        .json({ error: "userId non spécifié dans la requête" });
     }
 
     const user = await checkUserExists(userId);
@@ -69,7 +71,6 @@ exports.getUserById = async (req, res, next) => {
     next(error);
   }
 };
-
 
 exports.updateUser = async (req, res, next) => {
   try {
@@ -108,9 +109,28 @@ exports.updateCar = async (req, res, next) => {
       valet,
     } = req.body;
     const { userId } = req.params;
-    const voiture = await Voiture.findOneAndUpdate(
-      await User.findById(userId).voiture,
-      {
+    const user = await User.findById(userId);
+    const hasCar = user.voiture ? true : false;
+    if (hasCar) {
+      const voiture = await Voiture.findOneAndUpdate(
+        user.voiture,
+        {
+          marque: marque,
+          modele: modele,
+          couleur: couleur,
+          plaque: plaque,
+          latitude: latitude,
+          longitude: longitude,
+          isParked: isParked,
+          isMoving: isMoving,
+          timeToLeave: timeToLeave,
+          valet: valet,
+        },
+        { new: true }
+      );
+      return res.status(201).json({message: "Voiture modifiée avec succès!", voiture})
+    } else {
+      const new_voiture = Voiture({
         marque: marque,
         modele: modele,
         couleur: couleur,
@@ -120,14 +140,11 @@ exports.updateCar = async (req, res, next) => {
         isParked: isParked,
         isMoving: isMoving,
         timeToLeave: timeToLeave,
-        valet: valet
-      },
-      { new: true }
-    );
-    if (!voiture)
-      return res.status(404).json({ message: "Ajoutez votre voiture!" });
-    else
-      return res.status(200).json({ message: "Voiture modifié avec succès!" });
+        valet: valet,
+      });
+      new_voiture.save()
+      return res.status(201).json({message: "Voiture ajoutée avec succès!", new_voiture})
+    }
   } catch (error) {
     hasValidationErrors(res, error);
     next(error);
@@ -151,7 +168,7 @@ exports.deleteUser = async (req, res, next) => {
 
 // Fonction pour vérifier si un utilisateur existe
 async function checkUserExists(userId) {
-  const user = await User.findById(userId).populate({path: "voiture"});
+  const user = await User.findById(userId).populate({ path: "voiture" });
   if (!user) {
     const error = new Error("L'utilisateur n'existe pas.");
     error.statusCode = 404;
