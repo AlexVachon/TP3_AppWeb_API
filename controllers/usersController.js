@@ -127,6 +127,7 @@ exports.updateCar = async (req, res, next) => {
           isMoving: isMoving,
           timeToLeave: timeToLeave,
           valet: valet,
+          updateAt: Date.now()
         },
         { new: true }
       );
