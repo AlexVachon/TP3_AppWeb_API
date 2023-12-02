@@ -2,7 +2,7 @@ const Histo = require("../models/historique");
 const Facture = require("../models/facture");
 
 exports.getHistorique = async (req, res, next) => {
-  const userId = req.user.userId;
+  const userId = req.user.id;
   console.log("userId", userId);
   try {
     const histo = await Histo.find({ userId: userId }).sort({ createdAt: -1 });
@@ -16,7 +16,7 @@ exports.getHistorique = async (req, res, next) => {
 };
 
 exports.effectuerPaiement = async (req, res, next) => {
-  const userId = req.user.userId;
+  const userId = req.user.id;
   const { histoID } = req.body;
 
   try {
@@ -43,7 +43,7 @@ exports.effectuerPaiement = async (req, res, next) => {
 };
 
 exports.getFacture = async (req, res, next) => {
-  const userId = req.user.userId;
+  const userId = req.user.id;
   try {
     const facture = await Facture.find({ userId: userId });
 
