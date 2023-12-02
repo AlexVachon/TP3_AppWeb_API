@@ -45,13 +45,10 @@ exports.effectuerPaiement = async (req, res, next) => {
 exports.getFacture = async (req, res, next) => {
   const userId = req.user.id;
   try {
-    const facture = await Facture.find({ userId: userId });
+    const factures = await Facture.find({ userId: userId });
 
-    if (!facture) {
-      return res.status(404).json({ message: "Aucune facture à ce jour!" });
-    }
+    return res.status(201).json(factures);
 
-    return res.status(201).json(facture);
   } catch (error) {
     next(error);
   }
