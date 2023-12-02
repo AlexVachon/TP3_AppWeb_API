@@ -6,10 +6,8 @@ exports.getHistorique = async (req, res, next) => {
   console.log("userId", userId);
   try {
     const histo = await Histo.find({ userId: userId }).sort({ createdAt: -1 });
-    
-    res.status(201).json({
-      histo
-    });
+
+    res.status(201).json(histo);
   } catch (err) {
     next(err);
   }
@@ -48,7 +46,6 @@ exports.getFacture = async (req, res, next) => {
     const factures = await Facture.find({ userId: userId });
 
     return res.status(201).json(factures);
-
   } catch (error) {
     next(error);
   }
