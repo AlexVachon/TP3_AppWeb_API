@@ -8,7 +8,7 @@ exports.getHistorique = async (req, res, next) => {
     const histo = await Histo.find({ userId: userId }).sort({ createdAt: -1 });
     
     res.status(201).json({
-      histo: histo,
+      histo
     });
   } catch (err) {
     next(err);
