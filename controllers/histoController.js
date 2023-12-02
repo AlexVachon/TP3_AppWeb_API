@@ -15,27 +15,36 @@ exports.getHistorique = async (req, res, next) => {
 
 exports.effectuerPaiement = async (req, res, next) => {
   const userId = req.user.id;
-  const { histoID } = req.body;
 
   try {
-    const histo = await Histo.findById(histoID);
-    if (!histo) {
-      return res
-        .status(404)
-        .json({ message: "Aucun historique trouvé avec cet ID." });
+    const historiques = await Histo.find({userId: userId, isPaid: false});
+    let total = 0
+
+    if (historiques.length === 0) {
+      return res.status(201).json({ message: "Aucune facture à payer pour le moment." });
     }
 
-    const facture = new Facture({
+    for (const histo of historiques) {
+      total += histo.price;
+      histo.isPaid = true;
+      await histo.save();
+    }
+
+    const facture = Facture({
       userId: userId,
-      price: histo.price,
+      price: total,
     });
 
-    histo.isPaid = true;
-    await histo.save();
     await facture.save();
 
-    return res.status(201).json({ message: "Facture payée!" });
+    return res.status(201).json({ message: "Paiement effectué avec succès!" });
   } catch (error) {
+
+    for (const histo of historiques) {
+      histo.isPaid = false;
+      await histo.save();
+    }
+
     next(error);
   }
 };
