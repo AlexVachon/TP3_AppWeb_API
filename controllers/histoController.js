@@ -6,13 +6,8 @@ exports.getHistorique = async (req, res, next) => {
   console.log("userId", userId);
   try {
     const histo = await Histo.find({ userId: userId }).sort({ createdAt: -1 });
-    if (!histo) {
-      const error = new Error("Aucun historique trouvé.");
-      error.statusCode = 404;
-      throw error;
-    }
-
-    res.status(200).json({
+    
+    res.status(201).json({
       histo: histo,
     });
   } catch (err) {
