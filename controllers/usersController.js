@@ -18,9 +18,9 @@ exports.getUsers = async (req, res, next) => {
       throw error;
     }
 
-    res.status(200).json({
-      users: filteredUsers,
-    });
+    res.status(200).json(
+      filteredUsers,
+    );
   } catch (error) {
     next(error);
   }
