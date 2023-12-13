@@ -16,7 +16,7 @@ exports.getHistorique = async (req, res, next) => {
 
 exports.createHistorique = async (req, res, next) => {
   try {
-    const userId = req.params.userId;
+    const userId = req.body.userId;
     const valetId = req.user.id;
 
     if(!mongoose.Types.ObjectId.isValid(valetId)){
