@@ -75,13 +75,14 @@ exports.getUserById = async (req, res, next) => {
 exports.updateUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
-    const { email, username } = req.body;
+    const { email, username, price } = req.body;
 
     const user = await User.findByIdAndUpdate(
       userId,
       {
         username: username,
         email: email,
+        price: price
       },
       { new: true }
     );
