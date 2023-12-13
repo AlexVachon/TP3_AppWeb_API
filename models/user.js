@@ -40,7 +40,8 @@ const userSchema = new Schema(
     },
     voiture: {
       type: Schema.Types.ObjectId,
-      ref: 'Voiture'
+      ref: 'Voiture',
+      default: null
     }
   },
   { timestamps: true }

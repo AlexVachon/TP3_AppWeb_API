@@ -7,5 +7,6 @@ const router = express.Router();
 router.get('/historique', isAuth, histoController.getHistorique);
 router.get('/effectuerPaiement', isAuth, histoController.effectuerPaiement);
 router.get('/facture', isAuth, histoController.getFacture);
+router.post('/historique/create/:idUser', isAuth, histoController.createHistorique)
 
 module.exports = router;
