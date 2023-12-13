@@ -28,7 +28,7 @@ exports.getUsers = async (req, res, next) => {
 
 exports.getUser = async (req, res, next) => {
   try {
-    const userId = req.user;
+    const userId = req.user.id;
     const user = await checkUserExists(userId);
 
     const userResource = {
