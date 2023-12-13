@@ -1,6 +1,5 @@
 const User = require("../models/user");
 const Voiture = require("../models/voiture");
-const Histo = require("../models/historique");
 const config = require("../config");
 const url_base = config.URL + ":" + config.PORT;
 
