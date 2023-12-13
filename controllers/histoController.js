@@ -26,7 +26,7 @@ exports.createHistorique = async (req, res, next) => {
       return res.status(401).json({message: "Le userId n'est pas valide!"})
     }
 
-    const valet = await User.findOneById(valetId);
+    const valet = await User.findById(valetId);
 
     const newHisto = Histo({
       price: valet.price,
