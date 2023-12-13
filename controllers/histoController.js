@@ -72,7 +72,7 @@ exports.effectuerPaiement = async (req, res, next) => {
 
     await facture.save();
 
-    return res.status(201).json({ message: "Paiement effectué avec succès!" });
+    return res.status(201).json({ message: "Paiement effectué avec succès!", facture });
   } catch (error) {
     for (const histo of historiques) {
       histo.isPaid = false;
