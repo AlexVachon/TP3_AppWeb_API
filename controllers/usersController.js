@@ -57,15 +57,15 @@ exports.getUser = async (req, res, next) => {
 
 exports.getUserById = async (req, res, next) => {
   try {
-    const { userId } = req.params;
+    const { id } = req.params;
 
-    if (!userId) {
+    if (!id) {
       return res
         .status(400)
         .json({ error: "userId non spécifié dans la requête" });
     }
 
-    const user = await checkUserExists(userId);
+    const user = await checkUserExists(id);
     res.status(200).json(user);
   } catch (error) {
     next(error);
