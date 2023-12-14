@@ -116,7 +116,7 @@ exports.updateCar = async (req, res, next) => {
     if(!mongoose.Types.ObjectId.isValid(userId)){
       return res.status(404).json({message: "Le userId n'est pas valide!"})
     }
-    const user = await User.findById(userId);
+    const user = await checkUserExists(userId);
     const hasCar = user.voiture ? true : false;
 
     if (hasCar) {
