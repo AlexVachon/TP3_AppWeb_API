@@ -17,9 +17,7 @@ exports.getUsers = async (req, res, next) => {
       throw error;
     }
 
-    res.status(200).json(
-      filteredUsers,
-    );
+    res.status(200).json(filteredUsers);
   } catch (error) {
     next(error);
   }
@@ -81,7 +79,7 @@ exports.updateUser = async (req, res, next) => {
       {
         username: username,
         email: email,
-        price: price
+        price: price,
       },
       { new: true }
     );
@@ -127,7 +125,7 @@ exports.updateCar = async (req, res, next) => {
           isMoving: isMoving,
           timeToLeave: timeToLeave,
           valet: valet,
-          updateAt: Date.now()
+          updateAt: Date.now(),
         },
         { new: true }
       );
@@ -164,13 +162,16 @@ exports.updateCar = async (req, res, next) => {
 exports.deleteUser = async (req, res, next) => {
   try {
     const userId = req.user.id;
-    
+
     const user = await checkUserExists(userId);
-    await user.deleteOne();
+
     if (user.voiture) {
       const voiture = await Voiture.findById(user.voiture);
-      await voiture.remove();
+      await voiture.delete();
     }
+
+    await user.delete();
+
     res.status(204).send();
   } catch (err) {
     next(err);
