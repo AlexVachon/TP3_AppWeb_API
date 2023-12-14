@@ -50,6 +50,13 @@ exports.signup = async (req, res, next) => {
 
     const hashedPassword = await bcrypt.hash(password, 10);
 
+    if(await User.findOne({email: email})){
+      return res.status(401).json({message: "Ce courriel est déjà utilisé!"})
+    }
+    if(await User.findOne({username: username})){
+      return res.status(401).json({message: "Ce courriel est déjà utilisé!"})
+    }
+
     const new_user = User({
       email: email,
       username: username,
