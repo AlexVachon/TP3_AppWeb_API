@@ -172,7 +172,6 @@ exports.deleteUser = async (req, res, next) => {
 
     await User.deleteOne({_id: user._id});
 
-    res.status(204).json({message: "Utilisateur supprimé!"});
   } catch (err) {
     next(err);
   }
