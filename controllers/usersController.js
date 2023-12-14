@@ -80,10 +80,6 @@ exports.updateUser = async (req, res, next) => {
     const { userId } = req.params;
     const { email, username, price } = req.body;
 
-    if(!userId){
-      return res.status(404).json({message: "Aucun id fournie pour l'utilisateur"})
-    }
-
     if(!mongoose.Types.ObjectId.isValid(userId)){
       return res.status(404).json({message: "Le userId n'est pas valide!"})
     }
