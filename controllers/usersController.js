@@ -1,7 +1,7 @@
 const User = require("../models/user");
 const Voiture = require("../models/voiture");
 const config = require("../config");
-const url_base = config.URL + ":" + config.PORT;
+const url_base = config.URL;
 
 exports.getUsers = async (req, res, next) => {
   try {
