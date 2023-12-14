@@ -59,4 +59,10 @@ module.exports = [
     password: "$2a$10$Xz2wWwLDrxqojU30a3Xf7uyK/DBM9fP36eamVhVNHgF4YtHRonUVG",
     voiture: "657b4b893e8f70a381ee83d1",
   },
+  {
+    _id: "657b50c62710ee2e999ec841",
+    email: "nocar@gare.ca",
+    username: "nocar",
+    password: "$2a$10$7jeWJ5U.YNO/QJucsJiqnuXOzZwGSa8p8SSVAEcZzGMCEzreaIWnO",
+  },
 ];
