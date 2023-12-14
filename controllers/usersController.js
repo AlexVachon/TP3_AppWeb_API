@@ -27,6 +27,10 @@ exports.getUsers = async (req, res, next) => {
 exports.getUser = async (req, res, next) => {
   try {
     const userId = req.user.id;
+
+    if(!mongoose.Types.ObjectId.isValid(userId)){
+      return res.status(404).json({message: "Le userId n'est pas valide!"})
+    }
     const user = await checkUserExists(userId);
 
     const userResource = {
