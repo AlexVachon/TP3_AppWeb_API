@@ -61,12 +61,6 @@ exports.getUserById = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    if (!id) {
-      return res
-        .status(400)
-        .json({ error: "userId non spécifié dans la requête" });
-    }
-
     if(!mongoose.Types.ObjectId.isValid(id)){
       return res.status(404).json({message: "Le userId n'est pas valide!"})
     }
