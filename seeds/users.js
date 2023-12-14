@@ -27,7 +27,7 @@ module.exports = [
     voiture: "657a23a35f50466634a7db77",
   },
   {
-    _id:"657a1fb18ea47553c42df84b",
+    _id: "657a1fb18ea47553c42df84b",
     email: "user4@gare.ca",
     username: "user4",
     password: "$2a$10$6f34mDkkvjPff9dU9wwfkusZ6dw1rYOg4nNccoVehrfWVCYBVXwO2",
@@ -36,13 +36,13 @@ module.exports = [
     voiture: "657a24025f50466634a7db81",
   },
   {
-    _id:"657a1fc78ea47553c42df84d",
+    _id: "657a1fc78ea47553c42df84d",
     email: "user5@gare.ca",
     username: "user5",
     password: "$2a$10$Ah5IGD88EKCOdXncFsoLduBiwiOdYEUewGQhJrV8YP/FWim0dbMZO",
     isValet: false,
     price: 0,
-    voiture: "657a246d5f50466634a7db88"
+    voiture: "657a246d5f50466634a7db88",
   },
   {
     _id: "657754d8c1b10693cbd5b9b8",
@@ -51,5 +51,12 @@ module.exports = [
     password: "$2a$10$oqi1Or4AZmZbJ2TjdIVjQ.o0NIfuttt3yjXF8FiiVBZEvoGmeu.Om",
     isValet: true,
     price: 6,
+  },
+  {
+    _id: "657b490636ab1313839ff50c",
+    email: "delete@gare.ca",
+    username: "delete",
+    password: "$2a$10$Xz2wWwLDrxqojU30a3Xf7uyK/DBM9fP36eamVhVNHgF4YtHRonUVG",
+    voiture: "657b4b893e8f70a381ee83d1",
   },
 ];

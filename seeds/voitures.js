@@ -10,10 +10,10 @@ module.exports = [
     isParked: true,
     isMoving: true,
     valet: "657754d8c1b10693cbd5b9b8",
-    timeToLeave: new Date().setHours(10, 0, 0, 0)
+    timeToLeave: new Date().setHours(10, 0, 0, 0),
   },
   {
-    _id:"657a22bb5f50466634a7db65",
+    _id: "657a22bb5f50466634a7db65",
     marque: "Toyota",
     modele: "Corolla",
     couleur: "Bleue",
@@ -21,10 +21,10 @@ module.exports = [
     isParked: true,
     latitude: 46.791465829500424,
     longitude: -71.25886916158827,
-    timeToLeave: new Date().setHours(9, 0, 0, 0)
+    timeToLeave: new Date().setHours(9, 0, 0, 0),
   },
   {
-    _id:"657a23a35f50466634a7db77",
+    _id: "657a23a35f50466634a7db77",
     marque: "Kia",
     modele: "Sorento",
     couleur: "Noire",
@@ -32,7 +32,7 @@ module.exports = [
     isParked: true,
     latitude: 46.79224445307165,
     longitude: -71.26264381057346,
-    timeToLeave: new Date().setHours(11, 45, 0, 0)
+    timeToLeave: new Date().setHours(11, 45, 0, 0),
   },
   {
     _id: "657a24025f50466634a7db81",
@@ -43,7 +43,7 @@ module.exports = [
     isParked: true,
     latitude: 46.79344909375923,
     longitude: -71.26607359856078,
-    timeToLeave: new Date().setHours(16, 30, 0, 0)
+    timeToLeave: new Date().setHours(16, 30, 0, 0),
   },
   {
     _id: "657a246d5f50466634a7db88",
@@ -51,5 +51,12 @@ module.exports = [
     modele: "Civic",
     couleur: "Rouge",
     plaque: "XXX555",
+  },
+  {
+    _id: "657b4b893e8f70a381ee83d1",
+    marque: "Delete",
+    modele: "delete",
+    couleur: "delete",
+    plaque: "DELETE",
   },
 ];
