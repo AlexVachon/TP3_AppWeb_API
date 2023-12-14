@@ -54,7 +54,7 @@ exports.signup = async (req, res, next) => {
       return res.status(401).json({message: "Ce courriel est déjà utilisé!"})
     }
     if(await User.findOne({username: username})){
-      return res.status(401).json({message: "Ce courriel est déjà utilisé!"})
+      return res.status(401).json({message: "Ce nom d'utilisateur est déjà utilisé!"})
     }
 
     const new_user = User({
