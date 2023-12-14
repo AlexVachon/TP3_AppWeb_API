@@ -1,6 +1,7 @@
 const User = require("../models/user");
 const Voiture = require("../models/voiture");
 const config = require("../config");
+const { default: mongoose } = require("mongoose");
 const url_base = config.URL;
 
 exports.getUsers = async (req, res, next) => {
@@ -108,6 +109,9 @@ exports.updateCar = async (req, res, next) => {
     } = req.body;
 
     const { userId } = req.params;
+    if(!mongoose.Types.ObjectId.isValid(userId)){
+      return res.status(404).json({message: "Le userId n'est pas valide!"})
+    }
     const user = await User.findById(userId);
     const hasCar = user.voiture ? true : false;
 
