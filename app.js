@@ -2,6 +2,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 var hateoasLinker = require('express-hateoas-links');
 
+const seedRoute = require('./routes/seed')
+
 const authRoutes = require('./routes/auth');
 const userRoutes = require('./routes/user');
 const historiqueRoutes = require('./routes/historique');
@@ -33,6 +35,7 @@ app.use((req, res, next) => {
   next();
 });
 
+app.use(seedRoute)
 app.use('/auth', authRoutes);
 app.use(userRoutes);
 app.use(historiqueRoutes);
