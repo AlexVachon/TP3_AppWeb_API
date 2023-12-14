@@ -167,10 +167,10 @@ exports.deleteUser = async (req, res, next) => {
 
     if (user.voiture) {
       const voiture = await Voiture.findById(user.voiture);
-      await voiture.remove();
+      await Voiture.deleteOne({_id: voiture._id});
     }
 
-    await user.remove();
+    await User.deleteOne({_id: user._id});
 
     res.status(204).send();
   } catch (err) {
