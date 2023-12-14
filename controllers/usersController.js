@@ -63,7 +63,12 @@ exports.getUserById = async (req, res, next) => {
         .json({ error: "userId non spécifié dans la requête" });
     }
 
+    if(!mongoose.Types.ObjectId.isValid(id)){
+      return res.status(404).json({message: "Le userId n'est pas valide!"})
+    }
+
     const user = await checkUserExists(id);
+
     res.status(200).json(user);
   } catch (error) {
     next(error);
@@ -74,6 +79,10 @@ exports.updateUser = async (req, res, next) => {
   try {
     const { userId } = req.params;
     const { email, username, price } = req.body;
+
+    if(!userId){
+      return res.status(404).json({message: "Aucun id fournie pour l'utilisateur"})
+    }
 
     if(!mongoose.Types.ObjectId.isValid(userId)){
       return res.status(404).json({message: "Le userId n'est pas valide!"})
