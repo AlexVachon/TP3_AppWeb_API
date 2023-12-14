@@ -163,7 +163,8 @@ exports.updateCar = async (req, res, next) => {
 
 exports.deleteUser = async (req, res, next) => {
   try {
-    const userId = req.query.userId;
+    const userId = req.user.id;
+    
     const user = await checkUserExists(userId);
     await user.deleteOne();
     if (user.voiture) {
